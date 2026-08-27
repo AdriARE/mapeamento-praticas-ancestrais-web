@@ -1,0 +1,224 @@
+/* ==========================================================================
+   Saberes Ancestrais — estilos compartidos
+   Este archivo lo usan TODAS las páginas del sitio.
+   ========================================================================== */
+
+/* --- 1. Tokens de diseño: todos los colores y tamaños en un solo lugar.
+   Si algún día cambia la paleta, solo se toca aquí. --- */
+:root {
+  --color-crema: #F8F4EC;
+  --color-crema-2: #F0EAD9; /* un poco más oscuro, para franjas/tarjetas */
+  --color-azul: #0B1F4A;
+  --color-mostaza: #C9A227;
+  --color-terracota: #B85C38;
+  --color-oliva: #6B7A4A;
+  --color-texto: #1A1A1A;
+  --color-texto-secundario: #5C5C5C;
+  --color-blanco: #FFFFFF;
+
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Inter', sans-serif;
+
+  --radius: 6px;
+  --max-width: 1100px;
+}
+
+/* --- 2. Reset básico: quita los estilos raros que trae el navegador
+   por defecto, para que todo se vea igual en cualquier página. --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-texto);
+  background: var(--color-crema);
+  line-height: 1.6;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+/* --- 3. Encabezado (header) con el nombre del sitio y el menú --- */
+.site-header {
+  background: var(--color-crema);
+  border-bottom: 1px solid rgba(11, 31, 74, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.site-header__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 1.1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-header__nome {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-azul);
+  text-decoration: none;
+}
+
+/* Menú: en escritorio es una fila, en móvil se apila (ver media query abajo) */
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  list-style: none;
+}
+
+.nav a {
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-texto);
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.nav a:hover,
+.nav a[aria-current="page"] {
+  color: var(--color-terracota);
+  border-bottom-color: var(--color-terracota);
+}
+
+/* --- 4. Franja decorativa (grafismo) — divisor fino entre secciones --- */
+.grafismo {
+  height: 10px;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--color-oliva) 0px, var(--color-oliva) 8px,
+    var(--color-mostaza) 8px, var(--color-mostaza) 16px,
+    var(--color-terracota) 16px, var(--color-terracota) 24px
+  );
+  opacity: 0.55;
+}
+
+/* --- 5. Hero: la primera sección grande de cada página --- */
+.hero {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 4rem 1.5rem 3rem;
+}
+
+.hero__eyebrow {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-oliva);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  color: var(--color-azul);
+  line-height: 1.15;
+  max-width: 18ch;
+}
+
+.hero p {
+  margin-top: 1.25rem;
+  max-width: 60ch;
+  font-size: 1.1rem;
+  color: var(--color-texto-secundario);
+}
+
+/* --- 6. Botones --- */
+.btn {
+  display: inline-block;
+  margin-top: 1.75rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--color-azul);
+  color: var(--color-blanco);
+  text-decoration: none;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: opacity 0.15s ease;
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+.btn--secondary {
+  background: transparent;
+  color: var(--color-azul);
+  border: 1.5px solid var(--color-azul);
+}
+
+/* --- 7. Secciones genéricas de contenido --- */
+.section {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+.section h2 {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--color-azul);
+  margin-bottom: 1rem;
+}
+
+/* --- 8. Pie de página (footer) --- */
+.site-footer {
+  background: var(--color-azul);
+  color: var(--color-crema);
+  margin-top: 4rem;
+}
+
+.site-footer__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.site-footer a {
+  text-decoration: none;
+  color: var(--color-crema);
+  opacity: 0.85;
+}
+
+.site-footer a:hover {
+  opacity: 1;
+}
+
+/* --- 9. Responsive: pantallas de celular --- */
+@media (max-width: 640px) {
+  .site-header__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .nav {
+    gap: 1rem 1.25rem;
+  }
+
+  .hero {
+    padding: 2.5rem 1.25rem 2rem;
+  }
+}
