@@ -13,7 +13,6 @@
   --color-terracota: #B23924;
   --color-oliva: #383719;
   --color-mostaza: #C3A96E;
-  --color-azul: #0B1F4A;
   --color-texto-secundario: #6B5E42;
   --color-blanco: #FFFDF8;
 
@@ -115,10 +114,12 @@ a { color: inherit; }
 
 .hero__actions { margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; }
 
-.hero__image {
+.hero__image img {
   border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: 0 12px 32px rgba(56, 55, 25, 0.18);
+  /* desvanecido suave en los bordes, para que la imagen se funda con
+     el fondo en vez de verse como una tarjeta pegada encima */
+  -webkit-mask-image: radial-gradient(ellipse 88% 88% at center, black 62%, transparent 100%);
+  mask-image: radial-gradient(ellipse 88% 88% at center, black 62%, transparent 100%);
 }
 
 /* --- Botones --- */
@@ -163,17 +164,25 @@ a { color: inherit; }
   font-size: 1.03rem;
 }
 
-/* separador sutil entre secciones — una línea fina, no una franja
-   decorativa grande */
+/* separador entre secciones: el búzio del proyecto, pequeño y discreto,
+   en vez de una línea genérica — es el único detalle "de firma" que se
+   repite en todo el sitio */
 .separador {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  border: none;
-  border-top: 1px solid rgba(56, 55, 25, 0.15);
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0;
 }
 
-/* --- Footer: aquí vive el único acento azul del sitio --- */
-.site-footer { background: var(--color-azul); color: var(--color-crema); }
+.separador img {
+  height: 26px;
+  width: auto;
+  opacity: 0.55;
+}
+
+/* --- Footer: el azul institucional no quedaba bien (acordado que se
+   descarta si no funciona) — se usa el oliva, ya presente en el resto
+   del sitio, para que el cierre no sea un salto brusco de color --- */
+.site-footer { background: var(--color-oliva); color: var(--color-crema); }
 
 .site-footer__inner {
   max-width: var(--max-width);
