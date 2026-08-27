@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Saberes Ancestrais</title>
 
-  <!-- Fuentes: Fraunces para títulos, Inter para el resto -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
@@ -13,7 +12,6 @@
 </head>
 <body>
 
-  <!-- ====== ENCABEZADO: igual en todas las páginas ====== -->
   <header class="site-header">
     <div class="site-header__inner">
       <a href="index.html" class="site-header__nome">Saberes Ancestrais</a>
@@ -33,24 +31,26 @@
     </div>
   </header>
 
-  <!-- ====== HERO: primera sección grande de la página ====== -->
   <section class="hero">
-    <p class="hero__eyebrow">GEERS · UFPE · Vitória de Santo Antão (PE)</p>
-    <h1>Mapeando os saberes ancestrais de cuidado em saúde</h1>
-    <p>
-      Um projeto de extensão que dá visibilidade às comunidades tradicionais
-      de terreiro do interior de Pernambuco — suas práticas, sua ancestralidade
-      e seu papel no cuidado em saúde.
-    </p>
-    <a href="terreiros.html" class="btn">Conhecer os terreiros</a>
-    <a href="sobre.html" class="btn btn--secondary" style="margin-left: 0.75rem;">Sobre o projeto</a>
+    <div class="hero__inner">
+      <p class="hero__eyebrow titulo-firma titulo-firma--clara">
+        GEERS · UFPE · Vitória de Santo Antão (PE)
+      </p>
+      <h1>Mapeando os saberes ancestrais de cuidado em saúde</h1>
+      <p>
+        Um projeto de extensão que dá visibilidade às comunidades tradicionais
+        de terreiro do interior de Pernambuco — suas práticas, sua ancestralidade
+        e seu papel no cuidado em saúde.
+      </p>
+      <div class="hero__actions">
+        <a href="terreiros.html" class="btn btn--primaria">Conhecer os terreiros</a>
+        <a href="sobre.html" class="btn btn--secundaria">Sobre o projeto</a>
+      </div>
+    </div>
   </section>
 
-  <div class="grafismo"></div>
-
-  <!-- ====== SECCIÓN: qué es esto en 3 líneas ====== -->
   <section class="section">
-    <h2>O que é este site</h2>
+    <h2 class="titulo-firma titulo-firma--oscura">O que é este site</h2>
     <p>
       Aqui você encontra as comunidades de terreiro mapeadas pela pesquisa,
       pode ver suas localizações no mapa, e — se você é uma liderança
@@ -59,7 +59,6 @@
     </p>
   </section>
 
-  <!-- ====== PIE DE PÁGINA: igual en todas las páginas ====== -->
   <footer class="site-footer">
     <div class="site-footer__inner">
       <div>
