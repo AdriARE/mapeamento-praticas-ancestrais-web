@@ -1,219 +1,313 @@
-/* ==========================================================================
-   Saberes Ancestrais — estilos compartidos (v4)
-   Esta vez con los materiales REALES extraídos del PDF del equipo:
-   - images/grafismo-strip.jpg  → franja tejida real, remate de header/footer
-   - images/bg-hero-pattern.jpg → patrón real de olas/diamantes del PDF,
-     usado como textura del hero (con una capa azul semitransparente
-     encima para que no compita con el texto)
-   ========================================================================== */
+/* =========================================================
+   Mapeamento Práticas Ancestrais — style.css
+   Tokens + reset + header + hero (Início)
+   ========================================================= */
 
+/* ---- Fonts ---- */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap');
+
+/* ---- Tokens ---- */
 :root {
-  --color-crema: #F8F4EC;
-  --color-azul: #0B1F4A;
-  --color-mostaza: #C9A227;
-  --color-terracota: #B85C38;
-  --color-oliva: #6B7A4A;
-  --color-texto: #1A1A1A;
-  --color-texto-secundario: #5C5C5C;
+  --crema: #F3D7A8;
+  --crema-2: #EFCB92;       /* leve variación para bordes/hover sobre crema */
+  --terracota: #B23924;
+  --terracota-escuro: #922C1B;
+  --oliva: #383719;
+  --oliva-70: rgba(56, 55, 25, 0.7);
+  --oliva-15: rgba(56, 55, 25, 0.15);
+  --mostaza: #C3A96E;
+  --azul: #0B1F4A;
 
-  --font-display: 'Fraunces', serif;
-  --font-body: 'Inter', sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 
-  --radius: 4px;
-  --max-width: 1100px;
+  --container: 1180px;
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.75rem;
+  --space-4: 3rem;
+  --space-5: 5rem;
+
+  --radius: 6px;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
+/* ---- Reset ---- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
+  margin: 0;
+  background: var(--crema);
+  color: var(--oliva);
   font-family: var(--font-body);
-  color: var(--color-texto);
-  background: var(--color-crema);
+  font-size: 17px;
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
-
 img { max-width: 100%; display: block; }
-a { color: inherit; }
+a { color: inherit; text-decoration: none; }
+ul { margin: 0; padding: 0; list-style: none; }
+h1, h2, h3 {
+  font-family: var(--font-display);
+  color: var(--oliva);
+  margin: 0;
+  line-height: 1.1;
+}
+p { margin: 0; }
 
-/* --- Firma visual del PDF: línea larga encima, línea corta debajo del
-   título — tal como aparece en "ESTÉTICA" / "PALETA DE CORES" --- */
-.titulo-firma { display: inline-block; }
-.titulo-firma::before,
-.titulo-firma::after { content: ""; display: block; height: 2px; }
-.titulo-firma::before { width: 100%; margin-bottom: 0.6rem; }
-.titulo-firma::after  { width: 55%;  margin-top: 0.6rem; }
-.titulo-firma--clara::before,
-.titulo-firma--clara::after { background: var(--color-crema); }
-.titulo-firma--oscura::before,
-.titulo-firma--oscura::after { background: var(--color-azul); }
-
-/* --- Franja tejida real, como remate fino de header y footer --- */
-.grafismo-remate {
-  height: 34px;
-  background-image: url("../images/grafismo-strip.jpg");
-  background-repeat: repeat-x;
-  background-size: auto 100%;
+:focus-visible {
+  outline: 2px solid var(--terracota);
+  outline-offset: 3px;
 }
 
-/* --- Header --- */
-.site-header { background: var(--color-azul); position: sticky; top: 0; z-index: 10; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
 
-.site-header__inner {
-  max-width: var(--max-width);
+.container {
+  max-width: var(--container);
   margin: 0 auto;
-  padding: 1.25rem 1.5rem;
+  padding: 0 var(--space-3);
+}
+
+/* ---- Skip link (a11y) ---- */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--oliva);
+  color: var(--crema);
+  padding: 0.75rem 1.25rem;
+  z-index: 100;
+}
+.skip-link:focus {
+  left: var(--space-2);
+  top: var(--space-2);
+}
+
+/* =========================================================
+   Header
+   ========================================================= */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--crema);
+  border-bottom: 1px solid var(--oliva-15);
+}
+.site-header .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-top: var(--space-2);
+  padding-bottom: var(--space-2);
+  gap: var(--space-3);
+}
+.site-logo img {
+  height: 34px;
+  width: auto;
+}
+.site-logo {
+  flex-shrink: 0;
 }
 
-.site-header__nome {
-  font-family: var(--font-display);
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: var(--color-crema);
-  text-decoration: none;
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem;
 }
+.nav-toggle svg { width: 26px; height: 26px; }
 
-.nav { display: flex; flex-wrap: wrap; gap: 1.6rem; list-style: none; }
-
-.nav a {
-  text-decoration: none;
-  font-size: 0.9rem;
+.main-nav ul {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+.main-nav a {
+  font-size: 0.95rem;
   font-weight: 500;
-  color: rgba(248, 244, 236, 0.75);
-  padding: 0.25rem 0;
-  border-bottom: 2px solid transparent;
-  transition: color 0.15s ease, border-color 0.15s ease;
-}
-
-.nav a:hover,
-.nav a[aria-current="page"] {
-  color: var(--color-mostaza);
-  border-bottom-color: var(--color-mostaza);
-}
-
-/* --- Hero: usa el patrón real del PDF como textura de fondo, a gran
-   escala (para que no se vea "empapelado") y con una capa azul encima
-   para que el texto se lea bien --- */
-.hero {
+  letter-spacing: 0.01em;
+  padding: 0.35rem 0;
   position: relative;
-  background-color: var(--color-azul);
-  background-image: url("../images/bg-hero-pattern.jpg");
-  background-size: 900px auto;
-  background-repeat: repeat;
-  background-position: center;
+  transition: color 0.15s ease;
 }
+.main-nav a:hover { color: var(--terracota); }
 
-.hero::before {
+/* Firma visual: el búzio marca el ítem activo del menú */
+.main-nav a[aria-current="page"] {
+  color: var(--terracota);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.main-nav a[aria-current="page"]::before {
   content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(11, 31, 74, 0.72);
+  width: 9px;
+  height: 12px;
+  background: var(--terracota);
+  -webkit-mask: url('../assets/img/simbolo-buzio.png') center / contain no-repeat;
+  mask: url('../assets/img/simbolo-buzio.png') center / contain no-repeat;
+  display: inline-block;
 }
 
-.hero__inner {
-  position: relative;
-  z-index: 1;
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 6rem 1.5rem 7rem;
-  color: var(--color-crema);
+.nav-cta {
+  background: var(--terracota);
+  color: var(--crema) !important;
+  padding: 0.55rem 1.1rem !important;
+  border-radius: var(--radius);
+  font-weight: 600 !important;
+  transition: background 0.15s ease;
+}
+.nav-cta:hover {
+  background: var(--terracota-escuro);
+  color: var(--crema) !important;
 }
 
-.hero__eyebrow {
+@media (max-width: 860px) {
+  .nav-toggle { display: block; }
+  .main-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--crema);
+    border-bottom: 1px solid var(--oliva-15);
+    display: none;
+  }
+  .main-nav.is-open { display: block; }
+  .main-nav ul {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--space-2) var(--space-3) var(--space-3);
+    gap: var(--space-2);
+  }
+  .nav-cta { align-self: flex-start; }
+}
+
+/* =========================================================
+   Hero — Início
+   ========================================================= */
+.hero {
+  padding: var(--space-5) 0 var(--space-4);
+  overflow: hidden;
+}
+.hero .container {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-body);
   font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--color-mostaza);
   font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--terracota);
+  margin-bottom: var(--space-2);
+}
+.hero-eyebrow img {
+  width: 12px;
+  height: 17px;
 }
 
-.hero h1 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(2.4rem, 6vw, 4.2rem);
-  line-height: 1.08;
-  max-width: 16ch;
-  margin-top: 1.5rem;
+.hero-title {
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: var(--space-3);
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--terracota);
 }
 
-.hero p {
-  margin-top: 1.5rem;
-  max-width: 52ch;
-  font-size: 1.15rem;
-  color: rgba(248, 244, 236, 0.85);
+.hero-lead {
+  font-size: 1.1rem;
+  color: var(--oliva-70);
+  max-width: 46ch;
+  margin-bottom: var(--space-4);
 }
 
-.hero__actions { margin-top: 2.5rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
 
 .btn {
-  display: inline-block;
-  padding: 0.85rem 1.75rem;
-  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.5rem;
   border-radius: var(--radius);
   font-weight: 600;
   font-size: 0.95rem;
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
 }
-
-.btn:hover { opacity: 0.88; transform: translateY(-1px); }
-
-.btn--primaria { background: var(--color-mostaza); color: var(--color-azul); }
-
-.btn--secundaria {
+.btn-primary {
+  background: var(--terracota);
+  color: var(--crema);
+}
+.btn-primary:hover {
+  background: var(--terracota-escuro);
+  transform: translateY(-1px);
+}
+.btn-secondary {
   background: transparent;
-  color: var(--color-crema);
-  border: 1.5px solid rgba(248, 244, 236, 0.45);
+  color: var(--oliva);
+  border: 1.5px solid var(--oliva-15);
+}
+.btn-secondary:hover {
+  border-color: var(--oliva);
+  transform: translateY(-1px);
 }
 
-/* --- Secciones sobre crema (planas — el PDF solo pide textura en las
-   áreas grandes de azul, no en todas partes) --- */
-.section { max-width: var(--max-width); margin: 0 auto; padding: 5rem 1.5rem; }
-
-.section h2 {
+/* Marco tipo "foto" para la ilustración del hero — se usa completa, sin recortar */
+.hero-figure {
+  position: relative;
+}
+.hero-figure-frame {
+  background: #fff;
+  padding: 0.6rem 0.6rem 2.2rem;
+  border-radius: 3px;
+  box-shadow:
+    0 1px 2px rgba(56, 55, 25, 0.08),
+    0 18px 40px -12px rgba(56, 55, 25, 0.35);
+  transform: rotate(1.3deg);
+  transition: transform 0.35s ease;
+}
+.hero-figure-frame img {
+  border-radius: 1px;
+}
+.hero-figure-caption {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 1.1rem;
   font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 2rem;
-  color: var(--color-azul);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--oliva-70);
+}
+.hero-figure:hover .hero-figure-frame {
+  transform: rotate(0deg);
 }
 
-.section p {
-  margin-top: 1.5rem;
-  max-width: 62ch;
-  color: var(--color-texto-secundario);
-  font-size: 1.05rem;
-}
-
-.card {
-  background: var(--color-crema);
-  border-top: 3px solid var(--color-mostaza);
-  padding: 1.75rem;
-}
-
-/* --- Footer --- */
-.site-footer { background: var(--color-azul); color: var(--color-crema); }
-
-.site-footer__inner {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 3rem 1.5rem;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 1.5rem;
-  font-size: 0.9rem;
-}
-
-.site-footer strong { font-family: var(--font-display); font-weight: 500; }
-.site-footer a { text-decoration: none; color: var(--color-mostaza); }
-.site-footer a:hover { color: var(--color-crema); }
-
-/* --- Responsive --- */
-@media (max-width: 640px) {
-  .site-header__inner { flex-direction: column; align-items: flex-start; gap: 0.85rem; }
-  .nav { gap: 0.9rem 1.2rem; }
-  .hero__inner { padding: 3.5rem 1.25rem 4rem; }
-  .hero { background-size: 500px auto; }
-  .section { padding: 3.5rem 1.25rem; }
+@media (max-width: 900px) {
+  .hero .container {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  .hero-figure-frame {
+    transform: rotate(0.8deg);
+    max-width: 480px;
+    margin: 0 auto;
+  }
 }

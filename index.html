@@ -3,20 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Saberes Ancestrais</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="css/styles.css">
+  <title>Mapeamento Práticas Ancestrais</title>
+  <meta name="description" content="Mapeamento social de práticas de cuidado ancestrais de matriz afro-brasileira no interior de Pernambuco.">
+  <link rel="icon" type="image/png" href="assets/img/simbolo-buzio.png">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
+  <a href="#conteudo" class="skip-link">Pular para o conteúdo</a>
+
   <header class="site-header">
-    <div class="site-header__inner">
-      <a href="index.html" class="site-header__nome">Saberes Ancestrais</a>
-      <nav>
-        <ul class="nav">
+    <div class="container">
+      <a href="index.html" class="site-logo" aria-label="Mapeamento Práticas Ancestrais — página inicial">
+        <img src="assets/img/logo-horizontal.png" alt="Mapeamento Práticas Ancestrais">
+      </a>
+
+      <button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="main-nav">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <nav class="main-nav" id="main-nav" aria-label="Navegação principal">
+        <ul>
           <li><a href="index.html" aria-current="page">Início</a></li>
           <li><a href="sobre.html">Sobre</a></li>
           <li><a href="equipe.html">Equipe</a></li>
@@ -24,54 +35,50 @@
           <li><a href="terreiros.html">Terreiros</a></li>
           <li><a href="mapa.html">Mapa</a></li>
           <li><a href="cadastrar.html">Cadastrar</a></li>
-          <li><a href="denuncia.html">Denúncia</a></li>
           <li><a href="contato.html">Contato</a></li>
+          <li><a href="denuncia.html" class="nav-cta">Denúncia</a></li>
         </ul>
       </nav>
     </div>
-    <div class="grafismo-remate"></div>
   </header>
 
-  <section class="hero">
-    <div class="hero__inner">
-      <p class="hero__eyebrow titulo-firma titulo-firma--clara">
-        GEERS · UFPE · Vitória de Santo Antão (PE)
-      </p>
-      <h1>Mapeando os saberes ancestrais de cuidado em saúde</h1>
-      <p>
-        Um projeto de extensão que dá visibilidade às comunidades tradicionais
-        de terreiro do interior de Pernambuco — suas práticas, sua ancestralidade
-        e seu papel no cuidado em saúde.
-      </p>
-      <div class="hero__actions">
-        <a href="terreiros.html" class="btn btn--primaria">Conhecer os terreiros</a>
-        <a href="sobre.html" class="btn btn--secundaria">Sobre o projeto</a>
-      </div>
-    </div>
-  </section>
+  <main id="conteudo">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-text">
+          <span class="hero-eyebrow">
+            <img src="assets/img/simbolo-buzio.png" alt="">
+            GEERS · UFPE · Vitória de Santo Antão
+          </span>
+          <h1 class="hero-title">Saberes que curam,<br>memórias que <em>resistem</em>.</h1>
+          <p class="hero-lead">
+            Um mapeamento das comunidades tradicionais de terreiro do interior de Pernambuco
+            e dos saberes ancestrais de cura que carregam — para dar a eles visibilidade,
+            reconhecimento e respeito.
+          </p>
+          <div class="hero-actions">
+            <a href="mapa.html" class="btn btn-primary">Ver o mapa</a>
+            <a href="sobre.html" class="btn btn-secondary">Conhecer o projeto</a>
+          </div>
+        </div>
 
-  <section class="section">
-    <h2 class="titulo-firma titulo-firma--oscura">O que é este site</h2>
-    <p>
-      Aqui você encontra as comunidades de terreiro mapeadas pela pesquisa,
-      pode ver suas localizações no mapa, e — se você é uma liderança
-      religiosa — cadastrar seu próprio terreiro. Também há um canal privado
-      para relatar situações de racismo religioso.
-    </p>
-  </section>
+        <div class="hero-figure">
+          <div class="hero-figure-frame">
+            <img src="assets/img/hero-inicio.jpg" alt="Ilustração: mãe de santo com ervas, ao lado de maracás tradicionais e do emblema do GEERS.">
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-  <footer class="site-footer">
-    <div class="grafismo-remate"></div>
-    <div class="site-footer__inner">
-      <div>
-        <strong>Saberes Ancestrais</strong><br>
-        Grupo de Estudo e Pesquisa Equidade Racial em Saúde (GEERS) — UFPE
-      </div>
-      <div>
-        <a href="contato.html">Contato</a>
-      </div>
-    </div>
-  </footer>
+  <script>
+    const toggle = document.querySelector('.nav-toggle');
+    const nav = document.querySelector('.main-nav');
+    toggle.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', isOpen);
+    });
+  </script>
 
 </body>
 </html>
