@@ -61,6 +61,15 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ---------- TERREIROS ----------
+  document.getElementById('novoTerreiroBtn').addEventListener('click', async () => {
+    const { error } = await supabaseClient.from('terreiros').insert({ nome: 'Novo terreiro (editar)' });
+    if (error) {
+      alert('Erro ao criar: ' + error.message);
+      return;
+    }
+    carregarTerreiros();
+  });
+
   async function carregarTerreiros() {
     const list = document.getElementById('terreirosList');
     list.innerHTML = '<p class="empty-note">Carregando...</p>';
@@ -133,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <button class="abtn abtn-save">Salvar alterações</button>
         <button class="abtn abtn-aprovar">Aprovar</button>
         <button class="abtn abtn-rejeitar">Rejeitar</button>
+        <button class="abtn abtn-excluir">Excluir</button>
         <span class="save-msg">Salvo ✓</span>
       </div>
     `;
@@ -197,6 +207,16 @@ document.addEventListener('DOMContentLoaded', () => {
     card.querySelector('.abtn-save').addEventListener('click', () => atualizar({}, false));
     card.querySelector('.abtn-aprovar').addEventListener('click', () => atualizar({ status: 'aprovado' }, true));
     card.querySelector('.abtn-rejeitar').addEventListener('click', () => atualizar({ status: 'rejeitado' }, true));
+    card.querySelector('.abtn-excluir').addEventListener('click', async () => {
+      const nomeConfirmacao = t.nome || t.responsavel || 'este terreiro';
+      if (!confirm(`Excluir "${nomeConfirmacao}" para sempre? Isso não pode ser desfeito.`)) return;
+      const { error } = await supabaseClient.from('terreiros').delete().eq('id', t.id);
+      if (error) {
+        alert('Erro ao excluir: ' + error.message);
+        return;
+      }
+      carregarTerreiros();
+    });
 
     return card;
   }
