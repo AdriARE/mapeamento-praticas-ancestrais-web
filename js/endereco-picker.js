@@ -43,21 +43,6 @@
     document.head.appendChild(tag);
   }
 
-  function montarRotulo(props) {
-    const linha1 = [props.name, props.housenumber].filter(Boolean).join(', ');
-    const linha2 = [props.district, props.city, props.state].filter(Boolean).join(' — ');
-    return { principal: linha1 || props.city || 'Sem nome', secundaria: linha2 };
-  }
-
-  function textoCompleto(props) {
-    return [
-      [props.name, props.housenumber].filter(Boolean).join(', '),
-      props.district,
-      props.city,
-      props.state
-    ].filter(Boolean).join(', ');
-  }
-
   function attach(input, iniciais) {
     if (!input || input.dataset.epAtivo === '1') return;
     input.dataset.epAtivo = '1';
@@ -141,21 +126,76 @@
       lista.innerHTML = '';
     }
 
-    async function buscar(termo) {
+    async function buscarPhoton(termo) {
+      // Atenção: o Photon só aceita alguns idiomas (de/en/fr/it).
+      // Passar lang=pt devolve erro 400, por isso não enviamos o parâmetro.
       const url = 'https://photon.komoot.io/api/?q=' + encodeURIComponent(termo) +
-                  '&lat=' + CENTRO.lat + '&lon=' + CENTRO.lng +
-                  '&limit=6&lang=pt';
+                  '&lat=' + CENTRO.lat + '&lon=' + CENTRO.lng + '&limit=6';
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error('photon ' + resp.status);
+      const json = await resp.json();
+      return (json.features || [])
+        .filter(f => f.geometry && f.geometry.coordinates)
+        .map(f => {
+          const p = f.properties || {};
+          return {
+            lat: f.geometry.coordinates[1],
+            lng: f.geometry.coordinates[0],
+            principal: [p.name, p.housenumber].filter(Boolean).join(', ') || p.city || 'Sem nome',
+            secundaria: [p.district, p.city, p.state].filter(Boolean).join(' — '),
+            texto: [
+              [p.name, p.housenumber].filter(Boolean).join(', '),
+              p.district, p.city, p.state
+            ].filter(Boolean).join(', ')
+          };
+        });
+    }
+
+    async function buscarNominatim(termo) {
+      const url = 'https://nominatim.openstreetmap.org/search?format=json&addressdetails=1' +
+                  '&countrycodes=br&limit=6&q=' + encodeURIComponent(termo);
+      const resp = await fetch(url, { headers: { 'Accept-Language': 'pt-BR' } });
+      if (!resp.ok) throw new Error('nominatim ' + resp.status);
+      const json = await resp.json();
+      return (json || []).map(r => {
+        const partes = (r.display_name || '').split(',').map(s => s.trim());
+        return {
+          lat: Number(r.lat),
+          lng: Number(r.lon),
+          principal: partes.slice(0, 2).join(', ') || r.display_name,
+          secundaria: partes.slice(2, 5).join(' — '),
+          texto: r.display_name
+        };
+      });
+    }
+
+    async function buscar(termo) {
+      status.textContent = 'Buscando...';
+      status.classList.remove('ok');
+
+      // Tenta o Photon; se falhar ou não trouxer nada, tenta o Nominatim,
+      // que costuma cobrir melhor sítios e loteamentos do interior.
+      let achados = [];
       try {
-        const resp = await fetch(url);
-        if (!resp.ok) throw new Error('busca falhou');
-        const json = await resp.json();
-        resultados = (json.features || []).filter(f => f.geometry && f.geometry.coordinates);
-        mostrarResultados();
+        achados = await buscarPhoton(termo);
       } catch (err) {
-        fecharLista();
-        status.textContent = 'Não foi possível buscar sugestões agora. Você pode marcar o local no mapa.';
-        status.classList.remove('ok');
+        achados = [];
       }
+
+      if (achados.length === 0) {
+        try {
+          achados = await buscarNominatim(termo);
+        } catch (err) {
+          achados = [];
+          status.textContent = 'Não foi possível buscar sugestões agora. Você pode marcar o local no mapa.';
+          fecharLista();
+          return;
+        }
+      }
+
+      status.textContent = '';
+      resultados = achados;
+      mostrarResultados();
     }
 
     function mostrarResultados() {
@@ -165,12 +205,10 @@
         return;
       }
       lista.innerHTML = '';
-      resultados.forEach((f, i) => {
-        const props = f.properties || {};
-        const rot = montarRotulo(props);
+      resultados.forEach((r, i) => {
         const item = document.createElement('div');
         item.className = 'ep-sugestao';
-        item.innerHTML = `${rot.principal}<small>${rot.secundaria}</small>`;
+        item.innerHTML = `${r.principal}<small>${r.secundaria || ''}</small>`;
         item.addEventListener('mousedown', (e) => {
           e.preventDefault();
           escolher(i);
@@ -181,15 +219,12 @@
     }
 
     function escolher(i) {
-      const f = resultados[i];
-      if (!f) return;
-      const coords = f.geometry.coordinates; // [lng, lat]
-      const lat = coords[1];
-      const lng = coords[0];
-      input.value = textoCompleto(f.properties || {});
-      marcador.setLatLng([lat, lng]);
-      mapa.setView([lat, lng], ZOOM_ESCOLHIDO);
-      gravarCoords(lat, lng);
+      const r = resultados[i];
+      if (!r) return;
+      input.value = r.texto;
+      marcador.setLatLng([r.lat, r.lng]);
+      mapa.setView([r.lat, r.lng], ZOOM_ESCOLHIDO);
+      gravarCoords(r.lat, r.lng);
       fecharLista();
     }
 
