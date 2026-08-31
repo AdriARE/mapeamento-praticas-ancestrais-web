@@ -184,6 +184,15 @@ document.addEventListener('DOMContentLoaded', () => {
           const url = await uploadFotoSlot(file, input.dataset.slot);
           if (input.dataset.slot === 'fachada') dados.foto_fachada_url = url;
           if (input.dataset.slot === 'responsavel') dados.foto_responsavel_url = url;
+
+          // Atualiza a prévia na tela imediatamente
+          const slot = input.closest('.foto-slot');
+          const antigo = slot.querySelector('img, .no-foto');
+          if (antigo) antigo.remove();
+          const img = document.createElement('img');
+          img.src = url;
+          img.alt = input.dataset.slot === 'fachada' ? 'Fachada' : 'Responsável';
+          slot.insertBefore(img, slot.firstChild);
         }
 
         const { error } = await supabaseClient.from('terreiros').update(dados).eq('id', t.id);
