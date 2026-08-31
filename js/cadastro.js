@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const statusBox = document.getElementById('cadastro-status');
   const submitBtn = document.getElementById('cadastro-submit');
 
-// Mostra o campo de texto só quando "Outra" está marcada
+  // Mostra o campo de texto só quando "Outra" está marcada
   const outraCheck = document.getElementById('tradicao-outra-check');
   const outraTexto = document.getElementById('tradicao-outra-texto');
   if (outraCheck && outraTexto) {
