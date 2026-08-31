@@ -75,13 +75,18 @@
         <div class="form-field"><label for="ano-fundacao">Ano de fundação</label><input type="text" id="ano-fundacao" placeholder="Ex: 1998"></div>
       </div>
       <div class="form-field">
-        <label>Tradição <span style="font-weight:400; color:#8a7d64;">(pode marcar mais de uma)</span></label>
-        <div class="tradicao-checks">
-          <label class="tradicao-check"><input type="checkbox" name="tradicao" value="Candomblé"> Candomblé</label>
-          <label class="tradicao-check"><input type="checkbox" name="tradicao" value="Umbanda"> Umbanda</label>
-          <label class="tradicao-check"><input type="checkbox" name="tradicao" value="Jurema"> Jurema</label>
-          <label class="tradicao-check"><input type="checkbox" name="tradicao" value="Outra"> Outra</label>
-        </div>
+        <label>Tradição</label>
+        <details class="tradicao-dropdown">
+          <summary>Toque para selecionar <span style="font-weight:400; color:#8a7d64;">(pode marcar mais de uma)</span></summary>
+          <div class="tradicao-checks">
+            <label class="tradicao-check"><input type="checkbox" name="tradicao" value="Candomblé"> Candomblé</label>
+            <label class="tradicao-check"><input type="checkbox" name="tradicao" value="Umbanda"> Umbanda</label>
+            <label class="tradicao-check"><input type="checkbox" name="tradicao" value="Jurema"> Jurema</label>
+            <label class="tradicao-check"><input type="checkbox" name="tradicao" value="Outra" id="tradicao-outra-check"> Outra</label>
+            <input type="text" id="tradicao-outra-texto" placeholder="Qual?" style="display:none; margin-top:6px;">
+          </div>
+        </details>
+      </div>
       </div>
       <div class="form-field"><label for="endereco">Endereço</label><input type="text" id="endereco" placeholder="Rua, número, bairro"></div>
       <div class="form-field"><label>Localização no mapa</label>

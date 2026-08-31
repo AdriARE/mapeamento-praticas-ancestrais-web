@@ -7,6 +7,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const statusBox = document.getElementById('cadastro-status');
   const submitBtn = document.getElementById('cadastro-submit');
 
+// Mostra o campo de texto só quando "Outra" está marcada
+  const outraCheck = document.getElementById('tradicao-outra-check');
+  const outraTexto = document.getElementById('tradicao-outra-texto');
+  if (outraCheck && outraTexto) {
+    outraCheck.addEventListener('change', () => {
+      outraTexto.style.display = outraCheck.checked ? 'block' : 'none';
+      if (!outraCheck.checked) outraTexto.value = '';
+    });
+  }
+
   function showStatus(message, isError) {
     statusBox.textContent = message;
     statusBox.style.display = 'block';
@@ -49,7 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const tradicoes = Array.from(
         document.querySelectorAll('input[name="tradicao"]:checked')
-      ).map(el => el.value);
+      ).map(el => {
+        if (el.value === 'Outra') {
+          const outra = document.getElementById('tradicao-outra-texto').value.trim();
+          return outra || 'Outra';
+        }
+        return el.value;
+      });
 
       const { error } = await supabaseClient.from('terreiros').insert({
         nome: document.getElementById('nome-terreiro').value || null,
