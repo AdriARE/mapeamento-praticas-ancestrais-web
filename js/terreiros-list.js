@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
           <h3 class="${nomeClasse}">${esc(nomeExibido)}</h3>
           <p class="responsavel">Responsável: <strong>${esc(t.responsavel || 'a confirmar')}</strong></p>
           <div class="tag-row">${tags || '<span class="tag pending">Tradição a confirmar</span>'}</div>
-          <div class="card-footer"><a class="ver-perfil" href="#">Ver perfil →</a></div>
         </div>
       </div>
     `;
