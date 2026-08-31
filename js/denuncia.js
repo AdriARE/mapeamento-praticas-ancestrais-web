@@ -34,9 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Informação do cliente Supabase que o site está realmente usando
     let infoCliente = '';
     try {
+      const { data: sessionData } = await supabaseClient.auth.getSession();
+      const sessao = sessionData && sessionData.session;
       infoCliente =
         'URL: ' + (supabaseClient.supabaseUrl || '???') + '\n' +
-        'KEY (início): ' + String(supabaseClient.supabaseKey || '???').slice(0, 24) + '...\n\n';
+        'KEY (início): ' + String(supabaseClient.supabaseKey || '???').slice(0, 24) + '...\n' +
+        'SESSÃO ATIVA: ' + (sessao ? 'SIM — logado como ' + (sessao.user && sessao.user.email) : 'não, é anônimo') + '\n\n';
     } catch (e2) {
       infoCliente = 'Não foi possível ler dados do cliente Supabase.\n\n';
     }
