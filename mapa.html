@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 <body>
 
@@ -60,17 +61,16 @@
 
   <div class="map-wrap">
     <div class="map-area">
-      <svg class="pin" viewBox="0 0 24 24" fill="none" stroke="#A6391E" stroke-width="1.6"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
-      <p>O mapa interativo (Leaflet + coordenadas reais do Supabase) entra aqui quando conectarmos a base de dados. Por enquanto, só temos a localização de um terreiro confirmada.</p>
+      <div id="leafletMap"></div>
     </div>
-    <div class="map-legend">
+    <div class="map-legend" id="mapLegend">
       <div class="item"><span class="dot candomble"></span> Candomblé</div>
       <div class="item"><span class="dot umbanda"></span> Umbanda</div>
       <div class="item"><span class="dot jurema"></span> Jurema</div>
     </div>
   </div>
 
-  <p class="map-note">Cada marcador abre um card com foto, responsável e um link para o perfil completo do terreiro — o mesmo componente que já usamos na página Terreiros.</p>
+  <p class="map-note">Cada marcador mostra foto, responsável e tradições do terreiro. As localizações são informadas pelas próprias comunidades no momento do cadastro.</p>
 
   <div class="cta-band">
     <div>
@@ -106,5 +106,79 @@
   </footer>
 
 <script src="js/nav.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-client.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const CENTRO = [-8.1178, -35.2911];
+  const mapa = L.map('leafletMap').setView(CENTRO, 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap'
+  }).addTo(mapa);
+
+  const CORES = { candomblé: '#A6391E', umbanda: '#BE8A2E', jurema: '#7E7346' };
+  const CORPADRAO = '#5A4E36';
+
+  function corPara(tradicoes) {
+    if (!tradicoes || !tradicoes.length) return CORPADRAO;
+    const chave = tradicoes[0].toLowerCase();
+    for (const k in CORES) if (chave.includes(k)) return CORES[k];
+    return CORPADRAO;
+  }
+
+  function pinIcon(cor) {
+    return L.divIcon({
+      className: '',
+      html: `<svg width="30" height="30" viewBox="0 0 24 24" fill="${cor}" stroke="#fff" stroke-width="1"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5" fill="#fff"/></svg>`,
+      iconSize: [30, 30],
+      iconAnchor: [15, 28],
+      popupAnchor: [0, -26]
+    });
+  }
+
+  function montarPopup(t) {
+    const fotos = `
+      <div class="mp-fotos">
+        ${t.foto_responsavel_url ? `<img src="${t.foto_responsavel_url}" alt="">` : '<div class="mp-sem-foto"></div>'}
+        ${t.foto_fachada_url ? `<img src="${t.foto_fachada_url}" alt="">` : '<div class="mp-sem-foto"></div>'}
+      </div>`;
+    const tags = (t.tradicoes || []).map(tag => `<span class="mp-tag">${tag}</span>`).join('');
+    return `
+      <div class="map-popup">
+        ${fotos}
+        <strong>${t.nome || 'Terreiro'}</strong>
+        <div class="mp-resp">Responsável: ${t.responsavel || '—'}</div>
+        <div class="mp-tags">${tags}</div>
+      </div>`;
+  }
+
+  const { data, error } = await supabaseClient
+    .from('terreiros')
+    .select('*')
+    .eq('status', 'aprovado')
+    .not('lat', 'is', null)
+    .not('lng', 'is', null);
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  if (!data || data.length === 0) return;
+
+  const grupo = L.featureGroup();
+  data.forEach(t => {
+    const marcador = L.marker([t.lat, t.lng], { icon: pinIcon(corPara(t.tradicoes)) });
+    marcador.bindPopup(montarPopup(t));
+    marcador.addTo(grupo);
+  });
+  grupo.addTo(mapa);
+  mapa.fitBounds(grupo.getBounds().pad(0.2), { maxZoom: 15 });
+
+  setTimeout(() => mapa.invalidateSize(), 200);
+});
+</script>
 </body>
 </html>

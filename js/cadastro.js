@@ -67,12 +67,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return el.value;
       });
 
+      const enderecoInput = document.getElementById('endereco');
+      const lat = enderecoInput.dataset.lat ? Number(enderecoInput.dataset.lat) : null;
+      const lng = enderecoInput.dataset.lng ? Number(enderecoInput.dataset.lng) : null;
+
       const { error } = await supabaseClient.from('terreiros').insert({
         nome: document.getElementById('nome-terreiro').value || null,
         nacao: document.getElementById('nacao').value || null,
         tradicoes: tradicoes,
         ano_fundacao: document.getElementById('ano-fundacao').value || null,
         endereco: document.getElementById('endereco').value || null,
+        lat: lat,
+        lng: lng,
         responsavel: document.getElementById('nome-responsavel').value || null,
         telefone: document.getElementById('telefone').value || null,
         instagram: document.getElementById('instagram').value || null,

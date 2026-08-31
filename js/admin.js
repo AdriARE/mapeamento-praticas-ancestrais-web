@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="f"><label>Instagram</label><input type="text" data-field="instagram" value="${esc(t.instagram)}"></div>
       </div>
       <div class="field-grid full">
-        <div class="f"><label>Endereço</label><input type="text" data-field="endereco" value="${esc(t.endereco)}"></div>
+        <div class="f"><label>Endereço</label><input type="text" class="ep-endereco-admin" data-field="endereco" value="${esc(t.endereco)}"></div>
         <div class="f"><label>Descrição</label><textarea data-field="descricao">${esc(t.descricao)}</textarea></div>
         <div class="f"><label>Coletado por</label><input type="text" data-field="coletado_por" value="${esc(t.coletado_por)}"></div>
       </div>
@@ -157,6 +157,11 @@ document.addEventListener('DOMContentLoaded', () => {
           dados[campo] = el.value.trim() || null;
         }
       });
+      const enderecoInput = card.querySelector('.ep-endereco-admin');
+      if (enderecoInput) {
+        dados.lat = enderecoInput.dataset.lat ? Number(enderecoInput.dataset.lat) : null;
+        dados.lng = enderecoInput.dataset.lng ? Number(enderecoInput.dataset.lng) : null;
+      }
       return dados;
     }
 
@@ -226,6 +231,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       carregarTerreiros();
     });
+
+    const enderecoInputCard = card.querySelector('.ep-endereco-admin');
+    if (enderecoInputCard) {
+      EnderecoPicker.attach(enderecoInputCard, { lat: t.lat, lng: t.lng });
+    }
 
     return card;
   }
