@@ -59,19 +59,21 @@
   </div>
 
   <div class="form-wrap">
-    <div class="form-card">
+    <form class="form-card" id="form-denuncia">
       <div class="anon-note">
         Você pode enviar este relato de forma <strong>totalmente anônima</strong>. Os campos de contato abaixo são opcionais — preencha apenas se quiser que a equipe retorne o contato.
       </div>
 
+      <div id="denuncia-status" class="policy-note" style="display:none;"></div>
+
       <div class="form-section-title">O que aconteceu</div>
-      <div class="form-field"><label>Relate o ocorrido</label><textarea placeholder="Descreva com o máximo de detalhes possível: o quê, quando, onde..." style="min-height:160px;"></textarea></div>
+      <div class="form-field"><label for="relato">Relate o ocorrido</label><textarea id="relato" placeholder="Descreva com o máximo de detalhes possível: o quê, quando, onde..." style="min-height:160px;"></textarea></div>
 
       <div class="form-section-title">Contato (opcional)</div>
       <p class="hint" style="margin-bottom:14px;">Só preencha se quiser receber um retorno da equipe.</p>
       <div class="form-row">
-        <div class="form-field"><label>Nome</label><input type="text" placeholder="Opcional"></div>
-        <div class="form-field"><label>Telefone</label><input type="text" placeholder="Opcional"></div>
+        <div class="form-field"><label for="nome-contato">Nome</label><input type="text" id="nome-contato" placeholder="Opcional"></div>
+        <div class="form-field"><label for="telefone-contato">Telefone</label><input type="text" id="telefone-contato" placeholder="Opcional"></div>
       </div>
 
       <div class="checkbox-row">
@@ -79,9 +81,9 @@
         <label for="publish-consent">Autorizo que este relato (sem meus dados de contato) possa ser usado, de forma agregada, para dar visibilidade ao problema.</label>
       </div>
 
-      <a href="#" class="btn btn-fill" style="width:100%; text-align:center; background:var(--barro-dark);">Enviar relato</a>
+      <button type="submit" id="denuncia-submit" class="btn btn-fill" style="width:100%; text-align:center; background:var(--barro-dark); cursor:pointer;">Enviar relato</button>
       <p class="hint" style="text-align:center; margin-top:14px;">Ninguém além da equipe responsável tem acesso a este formulário.</p>
-    </div>
+    </form>
   </div>
 
 
@@ -108,5 +110,8 @@
   </footer>
 
 <script src="js/nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/denuncia.js"></script>
 </body>
 </html>
