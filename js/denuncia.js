@@ -1,5 +1,4 @@
 // Envio real do formulário de Denúncia para o Supabase
-// VERSÃO DE DIAGNÓSTICO — mostra o erro completo na tela
 
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('form-denuncia');
@@ -11,9 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function showStatus(message, isError) {
     statusBox.textContent = message;
     statusBox.style.display = 'block';
-    statusBox.style.whiteSpace = 'pre-wrap';
-    statusBox.style.fontFamily = 'monospace';
-    statusBox.style.fontSize = '13px';
     statusBox.style.background = isError ? '#F1DDD3' : '#E3E6D3';
     statusBox.style.color = isError ? '#7E2A16' : '#3a4321';
     statusBox.style.borderLeftColor = isError ? '#A6391E' : '#4B5A2E';
@@ -31,53 +27,23 @@ document.addEventListener('DOMContentLoaded', () => {
     submitBtn.textContent = 'Enviando...';
     submitBtn.disabled = true;
 
-    // Informação do cliente Supabase que o site está realmente usando
-    let infoCliente = '';
     try {
-      const { data: sessionData } = await supabaseClient.auth.getSession();
-      const sessao = sessionData && sessionData.session;
-      infoCliente =
-        'URL: ' + (supabaseClient.supabaseUrl || '???') + '\n' +
-        'KEY (início): ' + String(supabaseClient.supabaseKey || '???').slice(0, 24) + '...\n' +
-        'SESSÃO ATIVA: ' + (sessao ? 'SIM — logado como ' + (sessao.user && sessao.user.email) : 'não, é anônimo') + '\n\n';
-    } catch (e2) {
-      infoCliente = 'Não foi possível ler dados do cliente Supabase.\n\n';
-    }
-
-    try {
-      const resposta = await supabaseClient.from('denuncias').insert({
+      const { error } = await supabaseClient.from('denuncias').insert({
         relato: relato,
         nome_contato: document.getElementById('nome-contato').value || null,
         telefone_contato: document.getElementById('telefone-contato').value || null,
         consentimento_publicacao: document.getElementById('publish-consent').checked,
       });
 
-      if (resposta.error) {
-        showStatus(
-          'DIAGNÓSTICO\n\n' +
-          infoCliente +
-          'ERRO COMPLETO:\n' +
-          JSON.stringify(resposta.error, null, 2) + '\n\n' +
-          'STATUS: ' + (resposta.status || '-') + ' ' + (resposta.statusText || ''),
-          true
-        );
-        submitBtn.textContent = 'Enviar relato';
-        submitBtn.disabled = false;
-        return;
-      }
+      if (error) throw error;
 
       form.reset();
       showStatus('Relato enviado com segurança. Obrigado por confiar nesse canal.', false);
       submitBtn.textContent = 'Enviar relato';
       submitBtn.disabled = false;
     } catch (err) {
-      showStatus(
-        'DIAGNÓSTICO (exceção)\n\n' +
-        infoCliente +
-        'ERRO:\n' +
-        JSON.stringify(err, Object.getOwnPropertyNames(err || {}), 2),
-        true
-      );
+      console.error(err);
+      showStatus('Não foi possível enviar o relato. Tente novamente em alguns instantes.', true);
       submitBtn.textContent = 'Enviar relato';
       submitBtn.disabled = false;
     }
