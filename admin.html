@@ -70,9 +70,12 @@
   }
   .f textarea { min-height: 70px; resize: vertical; }
 
-  .fotos-row { display: flex; gap: 10px; margin-bottom: 14px; }
-  .fotos-row img { width: 90px; height: 68px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(42,33,21,.12); }
-  .fotos-row .no-foto { width: 90px; height: 68px; display: flex; align-items: center; justify-content: center; background: var(--lino); border-radius: 6px; font-size: .68rem; color: #9c8f76; text-align: center; }
+  .foto-slot-group { display: flex; gap: 16px; margin-bottom: 14px; flex-wrap: wrap; }
+  .foto-slot { display: flex; flex-direction: column; gap: 6px; }
+  .foto-slot img { width: 120px; height: 90px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(42,33,21,.12); }
+  .foto-slot .no-foto { width: 120px; height: 90px; display: flex; align-items: center; justify-content: center; background: var(--lino); border-radius: 6px; font-size: .68rem; color: #9c8f76; text-align: center; }
+  .foto-upload-label { font-size: .72rem; color: var(--barro); cursor: pointer; text-decoration: underline; width: 120px; }
+  .foto-upload-label input[type="file"] { display: block; margin-top: 4px; font-size: .68rem; width: 120px; }
 
   .actions-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
   .abtn { font-size: .82rem; font-weight: 600; padding: 9px 16px; border-radius: 5px; border: none; cursor: pointer; }
