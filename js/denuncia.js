@@ -43,7 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
       submitBtn.disabled = false;
     } catch (err) {
       console.error(err);
-      showStatus('Não foi possível enviar o relato. Tente novamente em alguns instantes.', true);
+      const detalhe = (err && (err.message || err.error_description || err.hint)) || 'erro desconhecido';
+      showStatus('Erro ao enviar (debug): ' + detalhe, true);
       submitBtn.textContent = 'Enviar relato';
       submitBtn.disabled = false;
     }
