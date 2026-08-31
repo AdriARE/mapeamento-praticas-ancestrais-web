@@ -69,10 +69,19 @@
       <div class="form-section-title">Dados do terreiro</div>
       <div class="form-field"><label for="nome-terreiro">Nome do terreiro</label><input type="text" id="nome-terreiro" placeholder="Ex: Ilê Axé..."></div>
       <div class="form-row">
-        <div class="form-field"><label for="nacao">Nação / tradição</label>
-          <select id="nacao"><option value="">Selecione</option><option>Candomblé</option><option>Umbanda</option><option>Jurema</option><option>Outra</option></select>
+        <div class="form-field"><label for="nacao">Nação</label>
+          <input type="text" id="nacao" placeholder="Ex: Ketu, Angola, Jeje, Jurema Sagrada...">
         </div>
         <div class="form-field"><label for="ano-fundacao">Ano de fundação</label><input type="text" id="ano-fundacao" placeholder="Ex: 1998"></div>
+      </div>
+      <div class="form-field">
+        <label>Tradição <span style="font-weight:400; color:#8a7d64;">(pode marcar mais de uma)</span></label>
+        <div class="tradicao-checks">
+          <label class="tradicao-check"><input type="checkbox" name="tradicao" value="Candomblé"> Candomblé</label>
+          <label class="tradicao-check"><input type="checkbox" name="tradicao" value="Umbanda"> Umbanda</label>
+          <label class="tradicao-check"><input type="checkbox" name="tradicao" value="Jurema"> Jurema</label>
+          <label class="tradicao-check"><input type="checkbox" name="tradicao" value="Outra"> Outra</label>
+        </div>
       </div>
       <div class="form-field"><label for="endereco">Endereço</label><input type="text" id="endereco" placeholder="Rua, número, bairro"></div>
       <div class="form-field"><label>Localização no mapa</label>

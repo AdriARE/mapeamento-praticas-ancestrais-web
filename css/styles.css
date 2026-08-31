@@ -264,6 +264,10 @@ select.filter-select { font-family: 'Work Sans', sans-serif; font-size: .9rem; c
 .checkbox-row input { margin-top: 3px; }
 .checkbox-row label { font-size: .85rem; color: #4a3f2c; line-height: 1.5; }
 
+.tradicao-checks { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 4px; }
+.tradicao-check { display: flex; align-items: center; gap: 7px; font-size: .88rem; font-weight: 500; color: var(--tinta); cursor: pointer; }
+.tradicao-check input { margin: 0; }
+ 
 @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } .form-card { padding: 28px 22px; } }
 
 /* ---------------- GROUPS AFINS / GENERIC PLACEHOLDER ---------------- */

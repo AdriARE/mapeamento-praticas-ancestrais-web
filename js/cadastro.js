@@ -47,9 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
         uploadFoto(fotoResponsavelFile, 'responsavel'),
       ]);
 
+      const tradicoes = Array.from(
+        document.querySelectorAll('input[name="tradicao"]:checked')
+      ).map(el => el.value);
+
       const { error } = await supabaseClient.from('terreiros').insert({
         nome: document.getElementById('nome-terreiro').value || null,
         nacao: document.getElementById('nacao').value || null,
+        tradicoes: tradicoes,
         ano_fundacao: document.getElementById('ano-fundacao').value || null,
         endereco: document.getElementById('endereco').value || null,
         responsavel: document.getElementById('nome-responsavel').value || null,
