@@ -82,7 +82,9 @@
   .abtn-save { background: var(--tinta); color: var(--lino); }
   .abtn-aprovar { background: var(--oliva); color: #fff; }
   .abtn-rejeitar { background: transparent; color: var(--barro-dark); border: 1px solid var(--barro-dark); }
+  .abtn-excluir { background: transparent; color: #a34; border: 1px solid rgba(163,68,68,.4); margin-left: auto; }
   .save-msg { font-size: .78rem; color: var(--oliva); display: none; }
+  .panel-toolbar { display: flex; justify-content: flex-end; margin-bottom: 16px; }
 
   .empty-note { color: #8a7d64; font-size: .9rem; text-align: center; padding: 40px 0; }
   .relato-box { background: var(--lino-soft); border-radius: 6px; padding: 14px; font-size: .9rem; line-height: 1.6; margin-bottom: 12px; white-space: pre-wrap; }
@@ -127,6 +129,9 @@
     </div>
 
     <div class="tab-panel active" id="panel-terreiros">
+      <div class="panel-toolbar">
+        <button id="novoTerreiroBtn" class="btn btn-fill" style="cursor:pointer;">+ Novo terreiro</button>
+      </div>
       <div id="terreirosList"></div>
     </div>
 
