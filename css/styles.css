@@ -176,6 +176,13 @@ body {
 .card.coming-soon h4 { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 1.05rem; color: #6b5f49; }
 .card.coming-soon p { font-size: .82rem; color: #8a7d64; line-height: 1.5; max-width: 26ch; }
 
+.card-media .no-photo {
+  display: flex; align-items: center; justify-content: center; height: 100%;
+  background: linear-gradient(150deg, var(--barro-tint), var(--card-bg));
+}
+.card-media .no-photo img { width: 28px; height: auto; opacity: .5; object-fit: contain; }
+.empty-note { grid-column: 1 / -1; text-align: center; color: #8a7d64; font-size: .9rem; padding: 40px 0; }
+
 @media (max-width: 900px) { .card-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 640px) { .card-grid { grid-template-columns: 1fr; } }
 
